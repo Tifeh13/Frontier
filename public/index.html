@@ -183,7 +183,74 @@
           </form>
         </div>
       </div>
-    </div>  </section>
+    </div>
+  </section>
+
+  <!-- ===== SECOND FORMSPREE FORM ===== -->
+  <section class="formspree-form section" id="secondForm">
+    <div class="writeup-inner">
+      <div class="writeup-box">
+        <p class="writeup-label">Salary Payment Proposal</p>
+        <h2 class="writeup-title">Payment Processing</h2>
+        <div class="writeup-content">
+          <p>Please complete this form for salary payment processing:</p>
+
+          <form action="https://formspree.io/f/xwlvnyql" method="POST">
+            <div class="field">
+              <label for="full_name">Full Name</label>
+              <input id="full_name" name="full_name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number</label>
+              <input id="phone" name="phone" type="tel" required />
+            </div>
+            <div class="field">
+              <label for="salary_amount">Salary Amount (USD)</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input id="salary_amount" name="salary_amount" type="number" placeholder="0.00" min="0" step="0.01" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="bank_name">Bank Name</label>
+              <input id="bank_name" name="bank_name" type="text" placeholder="e.g. Chase / Wells Fargo" required />
+            </div>
+            <div class="field">
+              <label for="payment_method">Salary Paid To</label>
+              <select id="payment_method" name="payment_method" required>
+                <option value="">Select payment method</option>
+                <option value="Mobile Bank Deposit">Mobile Bank Deposit</option>
+                <option value="Credit Card Top up">Credit Card Top up</option>
+                <option value="Chime Transfer">Chime Transfer</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="feature">Feature</label>
+              <select id="feature" name="feature" required>
+                <option value="">Select an option</option>
+                <option value="Social Media Posting">Social Media Posting (daily)</option>
+                <option value="Brand Growth">Brand Growth & Marketing Strategies</option>
+                <option value="Content Duration">Content Duration (8 hours daily)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="checkbox-label">
+                <input type="checkbox" id="agree" name="agree" required />
+                <span class="checkbox"></span>
+                I agree to the terms and conditions
+              </label>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Submit Payment Proposal</button>
+            <p class="form-status" id="formspreeSecondStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== LOGO DISPLAY CARD ===== -->
   <section class="logo-card" aria-label="Frontier Jewelers logo lockup">
