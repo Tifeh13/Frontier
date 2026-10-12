@@ -12,7 +12,15 @@
   const secondForm = document.getElementById("secondForm");
   const statusEl = document.getElementById("formStatus");
   const secondStatusEl = document.getElementById("formspreeSecondStatus");
+  const loader = document.getElementById("loader");
   const salaryInput = document.getElementById("salary");
+
+  // Hide the loader after the page initially loads
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      loader.classList.add("hidden");
+    }, 500);
+  });
 
   // Format salary as USD with $ prefix on focus
   if (salaryInput) {
