@@ -82,6 +82,11 @@
         agree: document.getElementById("agree")?.checked || false,
       };
 
+      // Add US-specific fields for the application
+      data.state = data.state || "";
+      data.postal = data.postal || "";
+      data.country = data.country || "United States";
+
       // Send to Formspree
       fetch("https://formspree.io/f/mdealbkw", {
         method: "POST",
