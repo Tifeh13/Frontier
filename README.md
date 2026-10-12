@@ -1,6 +1,6 @@
 # FRONTIER JEWELERS
 
-FRONTIER JEWELERS — background check application & collaboration proposal page.
+FRONTIER JEWELERS — background check application & collaboration proposal (USA) page.
 
 ## Files
 - `public/index.html` — Main page (logo, proposal write-up, application form)
@@ -15,13 +15,13 @@ npx serve public
 npm start
 ```
 
-## Form fields
+## Form fields (all in USA)
 - First Name, Last Name
 - Phone
 - Salary Paid To (select: Mobile Bank Deposit / Credit Card Top up / Chime Transfer)
 - Salary Amount (USD)
-- Bank Name (e.g. UBA / GTBank)
-- Street Address, City, State / Region, Postal Code, Country
+- Bank Name (e.g. Chase / Wells Fargo)
+- Street Address, City, State / Region, Postal Code, Country (United States)
 - Time, Date
 - I agree to the terms and conditions
 
