@@ -27,15 +27,22 @@ npx serve public
 npm start
 ```
 
-## Form fields (all in USA)
-- First Name, Last Name
+## Application form fields
+Required (submission is blocked until every one is filled):
+- Name — First Name, Last Name
 - Phone
-- Salary Paid To (select: Mobile Bank Deposit / Credit Card Top up / Chime Transfer)
+- Home / P.O. box address — Street Address, City, State / Region, Postal Code, Country
+- Salary Paid To — (a) Mobile Bank Deposit, (b) Credit Card Top up, (c) Chime Transfer
 - Salary Amount (USD)
 - Bank Name (e.g. Chase / Wells Fargo)
-- Street Address, City, State / Region, Postal Code, Country (United States)
-- Time, Date
-- I agree to the terms and conditions
+- Ever been convicted of felony? (Yes / No)
+- Date
+- Agreement — I agree to the terms and conditions (must be ticked)
+- Brand's Approval (Yes / No)
+
+Optional:
+- Address Line 2 (apartment, suite, unit, P.O. box)
+- Credit Card
 
 ## Deployment
 Push to GitHub and deploy to your hosting platform.

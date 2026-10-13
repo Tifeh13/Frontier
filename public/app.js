@@ -309,13 +309,16 @@
         payMethod: fieldValue(applyForm, "payMethod"),
         salary: fieldValue(applyForm, "salary"),
         bankName: fieldValue(applyForm, "bankName"),
+        creditCard: fieldValue(applyForm, "creditCard"),
         street: fieldValue(applyForm, "addrStreet"),
+        address2: fieldValue(applyForm, "addrLine2"),
         city: fieldValue(applyForm, "city"),
         state: fieldValue(applyForm, "state"),
         postal: fieldValue(applyForm, "postal"),
         country: fieldValue(applyForm, "country") || "United States",
-        time: fieldValue(applyForm, "time"),
+        felony: fieldValue(applyForm, "felony"),
         date: fieldValue(applyForm, "date"),
+        brandApproval: fieldValue(applyForm, "brandApproval"),
         agree: fieldChecked(applyForm, "agree")
       };
 
@@ -364,11 +367,16 @@
       payMethod: pick("payMethod", fieldValue(applyForm, "payMethod")),
       salary: pick("salary", fieldValue(applyForm, "salary")),
       bankName: pick("bankName", fieldValue(applyForm, "bankName")),
+      creditCard: pick("creditCard", fieldValue(applyForm, "creditCard")),
       street: pick("street", fieldValue(applyForm, "addrStreet")),
+      address2: pick("address2", fieldValue(applyForm, "addrLine2")),
       city: pick("city", fieldValue(applyForm, "city")),
       state: pick("state", fieldValue(applyForm, "state")),
       postal: pick("postal", fieldValue(applyForm, "postal")),
       country: pick("country", fieldValue(applyForm, "country")) || "United States",
+      felony: pick("felony", fieldValue(applyForm, "felony")),
+      date: pick("date", fieldValue(applyForm, "date")),
+      brandApproval: pick("brandApproval", fieldValue(applyForm, "brandApproval")),
       feature:
         (secondForm ? fieldValue(secondForm, "feature") : "") ||
         proposal.feature ||
@@ -389,13 +397,18 @@
     setText("review-paymethod", data.payMethod);
     setText("review-salary", data.salary);
     setText("review-bankname", data.bankName);
+    setText("review-creditcard", data.creditCard);
     setText("review-street", data.street);
+    setText("review-address2", data.address2);
     setText("review-city", data.city);
     setText("review-state", data.state);
     setText("review-postal", data.postal);
     setText("review-country", data.country);
+    setText("review-felony", data.felony);
+    setText("review-date", data.date);
     setText("review-feature", data.feature);
     setText("review-agree", data.agree);
+    setText("review-brandapproval", data.brandApproval);
 
     // Legacy review cells (kept in sync when present).
     setText("review-paymethod2", data.payMethod);
@@ -427,9 +440,12 @@
       if (!data.bankName) missing.push("Bank name");
       if (!data.street) missing.push("Street address");
       if (!data.city) missing.push("City");
-      if (!data.state) missing.push("State");
+      if (!data.state) missing.push("State / region");
       if (!data.postal) missing.push("Postal code");
       if (!data.country) missing.push("Country");
+      if (!data.felony) missing.push("Felony question");
+      if (!data.date) missing.push("Date");
+      if (!data.brandApproval) missing.push("Brand's approval");
       if (data.agree !== "Yes") missing.push("Agreement");
 
       if (missing.length) {
@@ -449,12 +465,17 @@
         phone: data.phone,
         salary_amount: data.salary,
         bank_name: data.bankName,
+        credit_card: data.creditCard,
         street_address: data.street,
+        address_line_2: data.address2,
         city: data.city,
         state: data.state,
         postal_code: data.postal,
         country: data.country,
         pay_method: data.payMethod,
+        felony: data.felony,
+        date: data.date,
+        brands_approval: data.brandApproval,
         feature: data.feature,
         agree: true
       };
@@ -469,11 +490,16 @@
             payMethod: data.payMethod,
             salary: data.salary,
             bankName: data.bankName,
+            creditCard: data.creditCard,
             street: data.street,
+            address2: data.address2,
             city: data.city,
             state: data.state,
             postal: data.postal,
             country: data.country,
+            felony: data.felony,
+            date: data.date,
+            brandApproval: data.brandApproval,
             agree: true
           });
           showStatus(

