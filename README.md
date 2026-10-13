@@ -3,10 +3,22 @@
 FRONTIER JEWELERS — background check application & collaboration proposal (USA) page.
 
 ## Files
-- `public/index.html` — Main page (logo, proposal write-up, application form)
-- `public/styles.css` — Styles (modern teal/indigo/gold palette)
-- `public/app.js` — Form handling & Formspree submission
+- `public/index.html` — Main page (hero, collaboration proposal letter, proposal, application, review)
+- `public/styles.css` — Styles (navy/blue + orange palette, fully responsive)
+- `public/app.js` — Form handling, validation & Formspree submission
 - `public/logo.png` — Brand logo
+
+## Sections (in order)
+1. Hero — collaboration proposal introduction
+2. Collaboration proposal letter (responsibilities + payment terms)
+3. Salary payment proposal form (step 1)
+4. Application form (step 2)
+5. Review & final submission (step 3)
+6. Contact + footer
+
+## Formspree endpoints
+- Salary payment proposal — `https://formspree.io/f/xwlvnyql`
+- Application form — `https://formspree.io/f/mdealbkw`
 
 ## Running locally
 ```bash
