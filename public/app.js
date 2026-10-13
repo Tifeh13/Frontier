@@ -193,4 +193,119 @@
         });
     });
   }
+
+  // --- Edit button in review card (populate values from application form) ---
+  const editBtn = document.getElementById("editReviewBtn");
+  if (editBtn) {
+    editBtn.addEventListener("click", function () {
+      const f = document.getElementById("first")?.value.trim() || "";
+      const l = document.getElementById("last")?.value.trim() || "";
+      const ph = document.getElementById("phone")?.value.trim() || "";
+      const pm = document.getElementById("payMethod")?.value || "";
+      const sal = document.getElementById("salary")?.value.trim() || "";
+      const bn = document.getElementById("bankName")?.value.trim() || "";
+      const st = document.getElementById("addrStreet")?.value.trim() || "";
+      const ct = document.getElementById("city")?.value.trim() || "";
+      const s = document.getElementById("state")?.value.trim() || "";
+      const pz = document.getElementById("postal")?.value.trim() || "";
+      const co = document.getElementById("country")?.value.trim() || "United States";
+      const fe = document.getElementById("feature")?.value.trim() || "";
+      const ag = document.getElementById("agree")?.checked ? "Yes" : "No";
+
+      document.getElementById("review-first").textContent = f || "—";
+      document.getElementById("review-last").textContent = l || "—";
+      document.getElementById("review-phone").textContent = ph || "—";
+      document.getElementById("review-paymethod").textContent = pm || "—";
+      document.getElementById("review-salary").textContent = sal || "—";
+      document.getElementById("review-bankname").textContent = bn || "—";
+      document.getElementById("review-street").textContent = st || "—";
+      document.getElementById("review-city").textContent = ct || "—";
+      document.getElementById("review-state").textContent = s || "—";
+      document.getElementById("review-postal").textContent = pz || "—";
+      document.getElementById("review-country").textContent = co || "—";
+      document.getElementById("review-paymethod2").textContent = pm || "—";
+      document.getElementById("review-salary2").textContent = sal || "—";
+      document.getElementById("review-bankname2").textContent = bn || "—";
+      document.getElementById("review-feature").textContent = fe || "—";
+      document.getElementById("review-agree").textContent = ag;
+    });
+  }
+
+  // --- Submit button in review card ---
+  const submitReviewBtn = document.getElementById("submitReviewBtn");
+  if (submitReviewBtn) {
+    submitReviewBtn.addEventListener("click", function () {
+      const f = document.getElementById("first")?.value.trim() || "";
+      const l = document.getElementById("last")?.value.trim() || "";
+      const ph = document.getElementById("phone")?.value.trim() || "";
+      const sal = document.getElementById("salary")?.value.trim() || "";
+      const bn = document.getElementById("bankName")?.value.trim() || "";
+      const st = document.getElementById("addrStreet")?.value.trim() || "";
+      const ct = document.getElementById("city")?.value.trim() || "";
+      const s = document.getElementById("state")?.value.trim() || "";
+      const pz = document.getElementById("postal")?.value.trim() || "";
+      const co = document.getElementById("country")?.value.trim() || "United States";
+      const pm = document.getElementById("payMethod")?.value || "";
+      const fe = document.getElementById("feature")?.value.trim() || "";
+      const ag = document.getElementById("agree")?.checked || false;
+
+      const missing = [];
+      if (!f) missing.push("First name");
+      if (!l) missing.push("Last name");
+      if (!ph) missing.push("Phone");
+      if (!sal) missing.push("Salary amount");
+      if (!bn) missing.push("Bank name");
+      if (!st) missing.push("Street address");
+      if (!ct) missing.push("City");
+      if (!s) missing.push("State");
+      if (!pz) missing.push("Postal code");
+      if (!co) missing.push("Country");
+      if (!pm) missing.push("Salary payment method");
+      if (!fe) missing.push("Feature");
+      if (!ag) missing.push("Agreement");
+
+      if (missing.length) {
+        secondStatusEl.classList.add("formspree-status--error");
+        secondStatusEl.textContent = "Please complete: " + missing.join(", ");
+        return;
+      }
+
+      const data = {
+        first_name: f,
+        last_name: l,
+        phone: ph,
+        salary_amount: sal,
+        bank_name: bn,
+        street_address: st,
+        city: ct,
+        state: s,
+        postal_code: pz,
+        country: co,
+        pay_method: pm,
+        feature: fe,
+        agree: ag,
+      };
+
+      fetch("https://formspree.io/f/xwlvnyql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then(function (res) {
+          if (res.ok) {
+            secondStatusEl.classList.add("formspree-status--success");
+            secondStatusEl.textContent = "Thanks, " + f + "! Your application has been submitted. We'll be in touch soon!";
+            applyForm.reset();
+            secondForm.reset();
+            secondStatusEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          } else {
+            throw new Error("Submission failed");
+          }
+        })
+        .catch(function () {
+          secondStatusEl.classList.add("formspree-status--error");
+          secondStatusEl.textContent = "Something went wrong. Please try again or email us directly.";
+        });
+    });
+  }
 })();
