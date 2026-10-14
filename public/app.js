@@ -28,6 +28,11 @@
   // here to keep showing the visitor's real information between steps.
   var submitted = { proposal: null, application: null };
 
+  // True once the review step has delivered a record to the proposal
+  // endpoint, so the proposal form cannot put a second copy of the same
+  // person into that inbox.
+  var reviewDelivered = false;
+
   /* ----------------------------------------------------------
      Small helpers
      ---------------------------------------------------------- */
@@ -242,6 +247,17 @@
   if (secondForm) {
     secondForm.addEventListener("submit", function (event) {
       event.preventDefault();
+
+      // The review step already delivered this visitor's record to the same
+      // endpoint — sending again would put a duplicate in the inbox.
+      if (reviewDelivered) {
+        showStatus(
+          secondStatusEl,
+          "error",
+          "Your details were already submitted from the review step, so nothing was sent twice."
+        );
+        return;
+      }
 
       if (!validateForm(secondForm, secondStatusEl)) {
         showStatus(secondStatusEl, "error", "Please complete the highlighted fields above.");
@@ -555,6 +571,19 @@
         return;
       }
 
+      // Each record is sent once: if the proposal form already delivered to
+      // this endpoint, the review step does not send the same person twice.
+      if (submitted.proposal) {
+        showStatus(
+          reviewStatusEl,
+          "success",
+          submitted.application
+            ? "Your proposal and application were each sent once — nothing was sent twice."
+            : "Your proposal already reached us, so nothing was sent twice. Submit the application form above to send your application."
+        );
+        return;
+      }
+
       submitReviewBtn.disabled = true;
 
       var payload = {
@@ -582,6 +611,8 @@
       postTo(PROPOSAL_ENDPOINT, payload)
         .then(function (res) {
           if (!res.ok) throw new Error("Submission failed");
+          submitted.proposal = payload;
+          reviewDelivered = true;
           submitted.application = Object.assign({}, submitted.application, {
             first: data.first,
             last: data.last,
