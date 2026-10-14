@@ -291,6 +291,7 @@
             "success",
             "Thank you, " + data.full_name + "! Your salary proposal has been submitted. We'll be in touch soon."
           );
+          mirrorIntoEmptyFields(secondForm);
           secondForm.reset();
           populateReview();
         })
@@ -353,6 +354,7 @@
             "success",
             "Thanks! Your application has been submitted. We'll be in touch soon."
           );
+          mirrorIntoEmptyFields(applyForm);
           applyForm.reset();
           populateReview();
         })
@@ -368,6 +370,51 @@
         });
     });
   }
+
+  /* ----------------------------------------------------------
+     Carry details across the two forms
+
+     Both forms ask for the same detail set, so mirror anything the visitor
+     types into one form into any empty field of the other — nobody should
+     have to type the same information twice. Values already present in the
+     other form are never overwritten.
+     ---------------------------------------------------------- */
+  function mirrorIntoEmptyFields(sourceForm) {
+    if (!sourceForm) return;
+    var target = sourceForm === secondForm ? applyForm : secondForm;
+    if (!target) return;
+
+    sourceForm.querySelectorAll("input, select, textarea").forEach(function (control) {
+      if (!control.name) return;
+      var twin = target.querySelector('[name="' + control.name + '"]');
+      if (!twin) return;
+
+      if (control.type === "checkbox") {
+        if (control.checked && !twin.checked) twin.checked = true;
+        return;
+      }
+
+      var value = String(control.value || "");
+      if (!value) return;
+
+      if (twin.type === "checkbox") {
+        if (!twin.checked) twin.checked = true;
+        return;
+      }
+
+      if (!String(twin.value || "")) twin.value = value;
+    });
+  }
+
+  [secondForm, applyForm].forEach(function (form) {
+    if (!form) return;
+    form.addEventListener("input", function () {
+      mirrorIntoEmptyFields(form);
+    });
+    form.addEventListener("change", function () {
+      mirrorIntoEmptyFields(form);
+    });
+  });
 
   /* ----------------------------------------------------------
      3. Review summary
