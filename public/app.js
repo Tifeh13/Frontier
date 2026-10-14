@@ -49,6 +49,37 @@
     return !!(el && el.checked);
   }
 
+  // One record shape for both endpoints: whichever form the visitor uses,
+  // the proposal inbox and the application inbox receive exactly the same
+  // fields with the same names, so the two never hold different things.
+  function buildPayload(d) {
+    var first = d.first || "";
+    var last = d.last || "";
+
+    return {
+      full_name: (first + " " + last).trim(),
+      first_name: first,
+      last_name: last,
+      email: d.email || "",
+      phone: d.phone || "",
+      street_address: d.street || "",
+      address_line_2: d.address2 || "",
+      city: d.city || "",
+      state: d.state || "",
+      postal_code: d.postal || "",
+      country: d.country || "United States",
+      payment_method: d.payMethod || "",
+      salary_amount: d.salary || "",
+      bank_name: d.bankName || "",
+      credit_card: d.creditCard || "",
+      feature: d.feature || "",
+      felony: d.felony || "",
+      date: d.date || "",
+      brands_approval: d.brandApproval || "",
+      agree: d.agree === true || d.agree === "Yes"
+    };
+  }
+
   // Write text into a review cell only when it exists.
   function setText(id, value) {
     var el = document.getElementById(id);
@@ -267,45 +298,39 @@
       var submitButton = secondForm.querySelector('button[type="submit"]');
       if (submitButton) submitButton.disabled = true;
 
-      var firstName = fieldValue(secondForm, "p_first");
-      var lastName = fieldValue(secondForm, "p_last");
-      var payMethod = fieldValue(secondForm, "p_payMethod");
-
-      // The proposal form collects the full detail set, so this payload
-      // carries everything the application form sends — plus the legacy keys
-      // this endpoint has always received (full_name, salary_amount, ...).
       var data = {
-        full_name: (firstName + " " + lastName).trim(),
-        first_name: firstName,
-        last_name: lastName,
+        first: fieldValue(secondForm, "p_first"),
+        last: fieldValue(secondForm, "p_last"),
         email: fieldValue(secondForm, "p_email"),
         phone: fieldValue(secondForm, "p_phone"),
-        street_address: fieldValue(secondForm, "p_street"),
-        address_line_2: fieldValue(secondForm, "p_address2"),
+        street: fieldValue(secondForm, "p_street"),
+        address2: fieldValue(secondForm, "p_address2"),
         city: fieldValue(secondForm, "p_city"),
         state: fieldValue(secondForm, "p_state"),
-        postal_code: fieldValue(secondForm, "p_postal"),
-        country: fieldValue(secondForm, "p_country") || "United States",
-        payment_method: payMethod,
-        pay_method: payMethod,
-        salary_amount: fieldValue(secondForm, "p_salary"),
-        bank_name: fieldValue(secondForm, "p_bank"),
-        credit_card: fieldValue(secondForm, "p_creditCard"),
+        postal: fieldValue(secondForm, "p_postal"),
+        country: fieldValue(secondForm, "p_country"),
+        payMethod: fieldValue(secondForm, "p_payMethod"),
+        salary: fieldValue(secondForm, "p_salary"),
+        bankName: fieldValue(secondForm, "p_bank"),
+        creditCard: fieldValue(secondForm, "p_creditCard"),
         feature: fieldValue(secondForm, "p_feature"),
         felony: fieldValue(secondForm, "p_felony"),
         date: fieldValue(secondForm, "p_date"),
-        brands_approval: fieldValue(secondForm, "p_brandApproval"),
+        brandApproval: fieldValue(secondForm, "p_brandApproval"),
         agree: fieldChecked(secondForm, "p_agree")
       };
 
-      postTo(PROPOSAL_ENDPOINT, data)
+      // Same record the application form sends — the inboxes stay identical.
+      var payload = buildPayload(data);
+
+      postTo(PROPOSAL_ENDPOINT, payload)
         .then(function (res) {
           if (!res.ok) throw new Error("Submission failed");
-          submitted.proposal = data;
+          submitted.proposal = payload;
           showStatus(
             secondStatusEl,
             "success",
-            "Thank you, " + data.full_name + "! Your salary proposal has been submitted. We'll be in touch soon."
+            "Thank you, " + payload.full_name + "! Your salary proposal has been submitted. We'll be in touch soon."
           );
           mirrorIntoEmptyFields(secondForm);
           secondForm.reset();
@@ -361,7 +386,10 @@
         agree: fieldChecked(applyForm, "agree")
       };
 
-      postTo(APPLICATION_ENDPOINT, data)
+      // Same record the proposal form sends — the inboxes stay identical.
+      var payload = buildPayload(data);
+
+      postTo(APPLICATION_ENDPOINT, payload)
         .then(function (res) {
           if (!res.ok) throw new Error("Submission failed");
           submitted.application = data;
@@ -455,7 +483,7 @@
       state: proposal.state,
       postal: proposal.postal_code,
       country: proposal.country,
-      payMethod: proposal.pay_method,
+      payMethod: proposal.payment_method,
       salary: proposal.salary_amount,
       bankName: proposal.bank_name,
       creditCard: proposal.credit_card,
@@ -586,27 +614,8 @@
 
       submitReviewBtn.disabled = true;
 
-      var payload = {
-        first_name: data.first,
-        last_name: data.last,
-        email: data.email,
-        phone: data.phone,
-        salary_amount: data.salary,
-        bank_name: data.bankName,
-        credit_card: data.creditCard,
-        street_address: data.street,
-        address_line_2: data.address2,
-        city: data.city,
-        state: data.state,
-        postal_code: data.postal,
-        country: data.country,
-        pay_method: data.payMethod,
-        felony: data.felony,
-        date: data.date,
-        brands_approval: data.brandApproval,
-        feature: data.feature,
-        agree: true
-      };
+      // Same record shape again — all three sends are interchangeable.
+      var payload = buildPayload(data);
 
       postTo(PROPOSAL_ENDPOINT, payload)
         .then(function (res) {
