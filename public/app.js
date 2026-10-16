@@ -1,11 +1,12 @@
 /* ============================================================
    FRONTIER JEWELERS — Collaboration proposal & application
    One form collects the visitor's details and delivers the complete record to
-   all three Formspree inboxes, so every inbox holds exactly the same thing —
+   all four Formspree inboxes, so every inbox holds exactly the same thing —
    nothing is split between them:
    1. formspree.io/f/xwlvnyql
    2. formspree.io/f/mdealbkw
    3. formspree.io/f/xgaorpez
+   4. formspree.io/f/mqpewgak
    Plus: review summary, header navigation, and loader.
    ============================================================ */
 
@@ -15,7 +16,8 @@
   var ENDPOINTS = [
     "https://formspree.io/f/xwlvnyql",
     "https://formspree.io/f/mdealbkw",
-    "https://formspree.io/f/xgaorpez"
+    "https://formspree.io/f/xgaorpez",
+    "https://formspree.io/f/mqpewgak"
   ];
 
   var loader = document.getElementById("loader");
@@ -319,14 +321,14 @@
   }
 
   /* ----------------------------------------------------------
-     1. The details form — delivered to all three inboxes
+     1. The details form — delivered to all four inboxes
      ---------------------------------------------------------- */
   if (form) {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
       // The review step already delivered this visitor's record to the same
-      // inboxes — sending again would put a duplicate in all three.
+      // inboxes — sending again would put a duplicate in all four.
       if (deliveredFromReview) {
         showStatus(
           statusEl,
