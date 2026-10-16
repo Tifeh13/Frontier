@@ -23,7 +23,7 @@ FRONTIER JEWELERS — background check application & collaboration proposal (USA
 
 There is a **single form**; the visitor's details are never collected twice.
 Every submission — from the form or from the review step — is POSTed to
-**all four** endpoints with the same 20 fields, so the four inboxes always
+**all four** endpoints with the same 18 fields, so the four inboxes always
 hold the same record. A guard keeps it to one record per visitor: submitting
 from the form blocks a second send from the review step, and vice versa.
 
@@ -35,11 +35,11 @@ npm start
 ```
 
 ## Form fields
-Required (submission is blocked until every one is filled — 17 fields):
+Required (submission is blocked until every one is filled — 16 fields):
 - Name — First Name, Last Name
 - Email Address
 - Phone
-- Home / P.O. box address — Street Address, City, State / Region, Postal Code, Country
+- Home / P.O. box address — Street Address, State / Region, Postal Code, Country
 - Salary Paid To — (a) Mobile Bank Deposit, (b) Credit Card Top up, (c) Chime Transfer
 - Salary Amount (USD)
 - Bank Name (e.g. Chase / Wells Fargo)
@@ -50,7 +50,6 @@ Required (submission is blocked until every one is filled — 17 fields):
 - Brand's Approval (Yes / No)
 
 Optional:
-- Address Line 2 (apartment, suite, unit, P.O. box)
 - Credit Card
 
 The review step (step 2) shows the details entered in the form and submits

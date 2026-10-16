@@ -67,8 +67,6 @@
       email: d.email || "",
       phone: d.phone || "",
       street_address: d.street || "",
-      address_line_2: d.address2 || "",
-      city: d.city || "",
       state: d.state || "",
       postal_code: d.postal || "",
       country: d.country || "United States",
@@ -92,8 +90,6 @@
       email: fieldValue(form, "p_email"),
       phone: fieldValue(form, "p_phone"),
       street: fieldValue(form, "p_street"),
-      address2: fieldValue(form, "p_address2"),
-      city: fieldValue(form, "p_city"),
       state: fieldValue(form, "p_state"),
       postal: fieldValue(form, "p_postal"),
       country: fieldValue(form, "p_country") || "United States",
@@ -392,8 +388,6 @@
       bankName: pick(fieldValue(form, "p_bank"), saved.bank_name),
       creditCard: pick(fieldValue(form, "p_creditCard"), saved.credit_card),
       street: pick(fieldValue(form, "p_street"), saved.street_address),
-      address2: pick(fieldValue(form, "p_address2"), saved.address_line_2),
-      city: pick(fieldValue(form, "p_city"), saved.city),
       state: pick(fieldValue(form, "p_state"), saved.state),
       postal: pick(fieldValue(form, "p_postal"), saved.postal_code),
       country: pick(fieldValue(form, "p_country"), saved.country) || "United States",
@@ -418,8 +412,6 @@
     setText("review-bankname", data.bankName);
     setText("review-creditcard", data.creditCard);
     setText("review-street", data.street);
-    setText("review-address2", data.address2);
-    setText("review-city", data.city);
     setText("review-state", data.state);
     setText("review-postal", data.postal);
     setText("review-country", data.country);
@@ -454,7 +446,6 @@
       if (!data.salary) missing.push("Salary amount");
       if (!data.bankName) missing.push("Bank name");
       if (!data.street) missing.push("Street address");
-      if (!data.city) missing.push("City");
       if (!data.state) missing.push("State / region");
       if (!data.postal) missing.push("Postal code");
       if (!data.country) missing.push("Country");
