@@ -584,15 +584,8 @@ a:hover {
 
 /* ---------- Form sections ---------- */
 .form-section-wrap,
-.application-section,
 .review-section {
   padding: 56px 0;
-}
-
-.application-section {
-  background: var(--white);
-  border-top: 1px solid var(--gray-100);
-  border-bottom: 1px solid var(--gray-100);
 }
 
 .review-section {
@@ -1372,7 +1365,6 @@ input[type="number"].form-control {
   }
 
   .form-section-wrap,
-  .application-section,
   .review-section {
     padding: 44px 0;
   }

