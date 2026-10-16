@@ -1,9 +1,11 @@
 /* ============================================================
    FRONTIER JEWELERS — Collaboration proposal & application
-   One form collects the visitor's details and delivers them to both
-   Formspree inboxes, so the two never hold different things:
-   1. formspree.io/f/xwlvnyql  (salary payment proposal)
-   2. formspree.io/f/mdealbkw  (application)
+   One form collects the visitor's details and delivers the complete record to
+   all three Formspree inboxes, so every inbox holds exactly the same thing —
+   nothing is split between them:
+   1. formspree.io/f/xwlvnyql
+   2. formspree.io/f/mdealbkw
+   3. formspree.io/f/xgaorpez
    Plus: review summary, header navigation, and loader.
    ============================================================ */
 
@@ -12,7 +14,8 @@
 
   var ENDPOINTS = [
     "https://formspree.io/f/xwlvnyql",
-    "https://formspree.io/f/mdealbkw"
+    "https://formspree.io/f/mdealbkw",
+    "https://formspree.io/f/xgaorpez"
   ];
 
   var loader = document.getElementById("loader");
@@ -49,9 +52,8 @@
     return !!(el && el.checked);
   }
 
-  // One record shape for both endpoints: the proposal inbox and the
-  // application inbox receive exactly the same fields with the same
-  // names, so the two never hold different things.
+  // One record shape for every endpoint: each inbox receives exactly the
+  // same fields with the same names, so they never hold different things.
   function buildPayload(d) {
     var first = d.first || "";
     var last = d.last || "";
@@ -317,14 +319,14 @@
   }
 
   /* ----------------------------------------------------------
-     1. The details form — delivered to both inboxes
+     1. The details form — delivered to all three inboxes
      ---------------------------------------------------------- */
   if (form) {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
       // The review step already delivered this visitor's record to the same
-      // inboxes — sending again would put a duplicate in both.
+      // inboxes — sending again would put a duplicate in all three.
       if (deliveredFromReview) {
         showStatus(
           statusEl,
