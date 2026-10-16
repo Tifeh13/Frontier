@@ -19,7 +19,7 @@ FRONTIER JEWELERS — background check application & collaboration proposal (USA
 - `https://formspree.io/f/xwlvnyql`
 - `https://formspree.io/f/mdealbkw`
 - `https://formspree.io/f/xgaorpez`
-- `https://formspree.io/f/mqpewgak`
+- `https://formspree.io/f/mgaorpvz`
 
 There is a **single form**; the visitor's details are never collected twice.
 Every submission — from the form or from the review step — is POSTed to
